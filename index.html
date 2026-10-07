@@ -27,7 +27,7 @@ h1{font-weight:400;font-style:italic;font-size:24px;color:var(--gold);margin-bot
 .btn:hover{filter:brightness(1.08)}
 .btn:focus-visible,.lang button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .btn.done{background:transparent;color:var(--gold)}
-.hint{font-style:italic;color:var(--gold-dim);font-size:16px;margin-top:10px}
+#banks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}#banks[hidden]{display:none}#banks a{border:1px solid var(--line);color:var(--ink);text-decoration:none;padding:11px 6px;font-size:17px}#banks a:hover{border-color:var(--gold);color:var(--gold)}#banks .other{grid-column:1/-1;font-style:italic;color:var(--gold-dim)}.hint{font-style:italic;color:var(--gold-dim);font-size:16px;margin-top:10px}
 </style>
 </head>
 <body>
@@ -43,13 +43,13 @@ h1{font-weight:400;font-style:italic;font-size:24px;color:var(--gold);margin-bot
     <output id="key">euacarolina1@gmail.com</output>
   </div>
   <button class="btn copy" id="copy" data-k="copy">Copy key</button>
-  <a class="btn zelle" href="https://www.zellepay.com/get-started" data-k="open">Open Zelle</a>
-  <p class="hint" data-k="hint">In your bank app: Zelle → Send → paste the key.</p>
+  <a class="btn zelle" id="qrlink" href="https://enroll.zellepay.com/" target="_blank" rel="noopener" data-k="pay">Open Zelle</a><button class="btn zelle" id="bankbtn" aria-expanded="false" aria-controls="banks" data-k="open">Choose your bank</button><div id="banks" hidden><a href="https://www.chase.com" target="_blank" rel="noopener">Chase</a><a href="https://www.bankofamerica.com" target="_blank" rel="noopener">Bank of America</a><a href="https://www.wellsfargo.com" target="_blank" rel="noopener">Wells Fargo</a><a href="https://www.citi.com" target="_blank" rel="noopener">Citi</a><a href="https://www.capitalone.com" target="_blank" rel="noopener">Capital One</a><a href="https://www.usbank.com" target="_blank" rel="noopener">U.S. Bank</a><a href="https://www.pnc.com" target="_blank" rel="noopener">PNC</a><a href="https://www.td.com" target="_blank" rel="noopener">TD Bank</a><a href="https://www.truist.com" target="_blank" rel="noopener">Truist</a><a href="https://www.navyfederal.org" target="_blank" rel="noopener">Navy Federal</a><a href="https://www.santanderbank.com" target="_blank" rel="noopener">Santander</a><a href="https://www.citizensbank.com" target="_blank" rel="noopener">Citizens</a><a class="other" href="https://www.zellepay.com/get-started" target="_blank" rel="noopener" data-k="other">Other bank</a></div>
+  <p class="hint" data-k="hint">Open your bank, go to Zelle → Send → paste the key.</p>
 </main>
 <script>
 var T={
- en:{title:"Pay with Zelle",sub:"Copy the key, then paste it in your bank's Zelle.",keyLabel:"Zelle key",copy:"Copy key",copied:"Copied",open:"Open Zelle",hint:"In your bank app: Zelle → Send → paste the key."},
- pt:{title:"Pagar com Zelle",sub:"Copie a chave e cole no Zelle do seu banco.",keyLabel:"Chave Zelle",copy:"Copiar chave",copied:"Copiado",open:"Abrir Zelle",hint:"No app do seu banco: Zelle → Enviar → cole a chave."}
+ en:{title:"Pay with Zelle",sub:"Copy the key, then paste it in your bank's Zelle.",keyLabel:"Zelle key",copy:"Copy key",copied:"Copied",pay:"Open Zelle",open:"Other banks",other:"Other bank",hint:"Open your bank, go to Zelle → Send → paste the key."},
+ pt:{title:"Pagar com Zelle",sub:"Copie a chave e cole no Zelle do seu banco.",keyLabel:"Chave Zelle",copy:"Copiar chave",copied:"Copiado",pay:"Abrir Zelle",open:"Outros bancos",other:"Outro banco",hint:"Abra seu banco, vá em Zelle → Enviar → cole a chave."}
 };
 var lang=(navigator.language||"en").toLowerCase().indexOf("pt")===0?"pt":"en";
 function set(l){
@@ -66,6 +66,8 @@ document.getElementById("copy").onclick=function(){
   function fb(){var t=document.createElement("textarea");t.value=k;document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){}document.body.removeChild(t)}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(k).then(ok,fb)}else{fb()}
 };
+document.getElementById("bankbtn").onclick=function(){var b=document.getElementById("banks"),o=b.hidden;b.hidden=!o;this.setAttribute("aria-expanded",o)};
+var q=document.getElementById("qrlink");if(q.getAttribute("href").indexOf("__ZELLE")===0){q.style.display="none"}
 set(lang);
 </script>
 </body>
